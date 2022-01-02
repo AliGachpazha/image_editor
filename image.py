@@ -11,7 +11,7 @@ from requests import get
 
 
 def create_poster(img,txt):
-    filename = 'sunshine_dog.jpg'
+    filename = 'input_image.jpg'
     image_url = img
     urllib.request.urlretrieve(image_url, filename)
     ImageFile.LOAD_TRUNCATED_IMAGES = True

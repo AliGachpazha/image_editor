@@ -33,5 +33,6 @@ def create_poster(img,txt):
     image.show()
 
 
-create_poster(
-    'https://ktnimg.mncdn.com/mnresize/868/1140/product-images/2WAM40027MK401/1500Wx1969H/2WAM40027MK401_G02_zoom2_V02.jpg','2.500.000 تومان')
+https_add=input('Enter the URL:')
+price_add=input('Enter the price:')
+create_poster(https_add,price_add)

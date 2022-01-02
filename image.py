@@ -1,5 +1,4 @@
-import os
-import time
+from os import remove
 import urllib.request
 import arabic_reshaper
 from bidi.algorithm import get_display
@@ -7,7 +6,6 @@ from PIL import Image, ImageFont, ImageDraw, ImageFile
 from rembg.bg import remove
 import numpy as np
 from io import BytesIO
-from requests import get
 
 
 def create_poster(img,txt):
@@ -29,7 +27,7 @@ def create_poster(img,txt):
     draw.text((170, 450), bidi_text, (255, 9, 250), font=font, align='center')
     img2 = image_add.resize((200, 200))
     image.paste(img2.convert("RGBA"), (130, 140), img2.convert("RGBA"))
-    os.remove(filename)
+    remove(filename)
     save_name = img.split('/')[-1]
     image.save(save_name)
     image.show()

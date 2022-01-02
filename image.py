@@ -1,92 +1,39 @@
+import os
+import time
+import urllib.request
 import arabic_reshaper
 from bidi.algorithm import get_display
-import tkinter
-from PIL import Image, ImageFont, ImageDraw
-file_name = 'cat.jpg'
-image = Image.open(file_name)
-font = ImageFont.truetype('BNazanin.ttf', 40, encoding='unic')
-draw = ImageDraw.Draw(image)
-text = 'باسلام خدمت همکار گرامی آقای امیری'
-reshaped_text = arabic_reshaper.reshape(text) # correct its shape
-bidi_text = get_display(reshaped_text) # correct its direction
-
-draw.text((500, 100), bidi_text,(255,9,250), font = font,align='center')
-image.show()
-#
-#
-#
-# import tkinter as tk
-# fields = 'Image', 'Text','X','Y','Address'
-# def show(entries):
-#     list_val=[]
-#     for entry in entries:
-#         text  = entry[1].get()
-#         list_val.append(text)
-#     image = Image.open(list_val[0])
-#     font = ImageFont.truetype('BNazanin.ttf', 40, encoding='unic')
-#     draw = ImageDraw.Draw(image)
-#     reshaped_text = arabic_reshaper.reshape(list_val[1])  # correct its shape
-#     bidi_text = get_display(reshaped_text)  # correct its direction
-#     x=float( list_val[2])
-#     y= float(list_val[3])
-#     draw.text((x, y), bidi_text, (250, 250, 250), font=font, align='center')
-#     image.show()
-#
-# def save(entries):
-#     list_val=[]
-#     for entry in entries:
-#         text  = entry[1].get()
-#         list_val.append(text)
-#     image = Image.open(list_val[0])
-#     font = ImageFont.truetype('BNazanin.ttf', 40, encoding='unic')
-#     draw = ImageDraw.Draw(image)
-#     reshaped_text = arabic_reshaper.reshape(list_val[1])  # correct its shape
-#     bidi_text = get_display(reshaped_text)  # correct its direction
-#     x = float(list_val[2])
-#     y = float(list_val[3])
-#     draw.text((x, y), bidi_text, (250, 250, 250), font=font, align='center')
-#     addres = (list_val[4])
-#     image.save(addres)
-#
-#
-# def makeform(root, fields):
-#     entries = []
-#     for field in fields:
-#         row = tk.Frame(root)
-#         lab = tk.Label(row, width=15, text=field, anchor='w')
-#         ent = tk.Entry(row)
-#         row.pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
-#         lab.pack(side=tk.LEFT)
-#         ent.pack(side=tk.RIGHT, expand=tk.YES, fill=tk.X)
-#         entries.append((field, ent))
-#     return entries
-#
-# if __name__ == '__main__':
-#     root = tk.Tk()
-#     ents = makeform(root, fields)
-#     root.bind('<Return>', (lambda event, e=ents: show(e)))
-#     b1 = tk.Button(root, text='Show',
-#                   command=(lambda e=ents: show(e)))
-#     b1.pack(side=tk.LEFT, padx=5, pady=5)
-#     b2 = tk.Button(root, text='save',
-#                    command=(lambda e=ents: save(e)))
-#     b2.pack(side=tk.LEFT, padx=5, pady=5)
-#     b3 = tk.Button(root, text='Quit', command=root.quit)
-#     b3.pack(side=tk.LEFT, padx=5, pady=5)
-#     root.mainloop()
-import requests
-from bs4 import BeautifulSoup
+from PIL import Image, ImageFont, ImageDraw, ImageFile
+from rembg.bg import remove
+import numpy as np
+from io import BytesIO
+from requests import get
 
 
-# def main():
-#     r = requests.get('https://www.trendyol.com/penti/cok-renkli-with-love-polar-pijama-takimi-p-194865919?boutiqueId=594215&merchantId=4442')
-#     soup = BeautifulSoup(r.content, features = "lxml")
-#     title = soup.title.string
-#     print('TITLE IS :', title)
-#     meta = soup.find_all('meta')
-#     for tag in meta:
-#            if 'property' in tag.attrs.keys() and tag.attrs['property'].strip().lower() in ['product:price:amount', 'keywords']:
-#             print('CONTENT :', tag.attrs['content'])
-#
-# if __name__ == '__main__':
-#    main()
+def create_poster(img,txt):
+    filename = 'sunshine_dog.jpg'
+    image_url = img
+    urllib.request.urlretrieve(image_url, filename)
+    ImageFile.LOAD_TRUNCATED_IMAGES = True
+    input_path = filename
+    f = np.fromfile(input_path)
+    result = remove(f)
+    image_add = Image.open(BytesIO(result)).convert("RGBA")
+    file_name = 'background.jpg'
+    image = Image.open(file_name)
+    font = ImageFont.truetype('BNazanin.ttf', 30, encoding='unic')
+    draw = ImageDraw.Draw(image)
+    text = txt
+    reshaped_text = arabic_reshaper.reshape(text)  # correct its shape
+    bidi_text = get_display(reshaped_text)  # correct its direction
+    draw.text((170, 450), bidi_text, (255, 9, 250), font=font, align='center')
+    img2 = image_add.resize((200, 200))
+    image.paste(img2.convert("RGBA"), (130, 140), img2.convert("RGBA"))
+    os.remove(filename)
+    save_name = img.split('/')[-1]
+    image.save(save_name)
+    image.show()
+
+
+create_poster(
+    'https://ktnimg.mncdn.com/mnresize/868/1140/product-images/2WAM40027MK401/1500Wx1969H/2WAM40027MK401_G02_zoom2_V02.jpg','2.500.000 تومان')

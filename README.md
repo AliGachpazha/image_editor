@@ -7,7 +7,7 @@ Making posters selling products
 How to Run?
 #1- Clone the repository:
 ```bash
- $ git clone  https://github.com/AliGachpazha/shopping_store
+ $ git clone  https://github.com/AliGachpazha/image_editor
  $ cd image_editor
 ```
 

@@ -1,9 +1,9 @@
 Create Poster
 =====
-#Online Create Poster
+#Online Create Poster =====
 Making posters selling products
 
-How to Run?
+How to Run?  =====
 #1- Clone the repository:
 ```bash
  $ git clone  https://github.com/AliGachpazha/image_editor
